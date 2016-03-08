@@ -50,16 +50,9 @@ define( 'BEA_PB_TAXO_NAME', 'custom_taxonomy' );
 define( 'BEA_PB_URL', plugin_dir_url( __FILE__ ) );
 define( 'BEA_PB_DIR', plugin_dir_path( __FILE__ ) );
 
-// Check PHP min version
-if ( version_compare( PHP_VERSION, BEA_PB_MIN_PHP_VERSION, '<' ) ) {
-	require_once( BEA_PB_DIR . 'compat.php' );
-
-	// possibly display a notice, trigger error
-	add_action( 'admin_init', array( 'BEA\PB\Compatibility', 'admin_init' ) );
-
-	// stop execution of this file
-	return;
-}
+// possibly display a notice, trigger error
+require_once( BEA_PB_DIR . 'compat.php' );
+add_action( 'admin_init', array( 'BEA\PB\Compatibility', 'admin_init' ) );
 
 /**
  * Autoload all the things \o/
