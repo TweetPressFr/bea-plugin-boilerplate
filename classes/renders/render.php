@@ -21,13 +21,6 @@ class Render {
 	protected $model_instance;
 
 	/**
-	 * The WP Post object
-	 * @var \WP_Post $wp_object
-	 * @since   2.2.0
-	 */
-	public $wp_object;
-
-	/**
 	 * @param $model : Instance of a given Model
 	 */
 	function __construct( $model = null ) {
@@ -35,7 +28,6 @@ class Render {
 			return false;
 		}
 		$this->model_instance = $model;
-		$this->wp_object = $model->wp_object; // WP_Post
 	}
 
 	/**
@@ -44,7 +36,7 @@ class Render {
 	 *
 	 * @return int
 	 */
-	protected function the_ID() {
+	public function the_ID() {
 		return $this->model_instance->ID;
 	}
 
@@ -54,8 +46,8 @@ class Render {
 	 *
 	 * @return string
 	 */
-	protected function the_title() {
-		return get_the_title( $this->wp_object );
+	public function the_title() {
+		return get_the_title( $this->model_instance->wp_object );
 	}
 
 }
