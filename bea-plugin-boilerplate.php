@@ -50,7 +50,22 @@ define( 'BEA_PB_TAXO_NAME', 'custom_taxonomy' );
 define( 'BEA_PB_URL', plugin_dir_url( __FILE__ ) );
 define( 'BEA_PB_DIR', plugin_dir_path( __FILE__ ) );
 
+/**
+ * Do not deactivate plugin but stop interpretation of the plugin
+ * Skip the plugin loading
+ */
+if( ! class_exists( '\BEA\Autoloader' ) ) {
+	if( is_admin() ) {
+		trigger_error( __( 'Plugin Boilerplate requires the BEA\Autoloader class to be activated.', 'bea-plugin-boilerplate' ) );
+	}
+	return;
+}
+
 // possibly display a notice, trigger error
+
+/**
+ * Check the PHP version defined on the plugin constant
+ */
 require_once( BEA_PB_DIR . 'compat.php' );
 add_action( 'admin_init', array( 'BEA\PB\Compatibility', 'admin_init' ) );
 
@@ -59,7 +74,10 @@ add_action( 'admin_init', array( 'BEA\PB\Compatibility', 'admin_init' ) );
  */
 require_once BEA_PB_DIR . 'autoload.php';
 
-// Plugin activate/deactive hooks
+/**
+ * Plugin activation/deactivation hooks
+ *
+ */
 register_activation_hook( __FILE__, array( '\BEA\PB\Plugin', 'activate' ) );
 register_deactivation_hook( __FILE__, array( '\BEA\PB\Plugin', 'deactivate' ) );
 
