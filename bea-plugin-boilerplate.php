@@ -66,8 +66,13 @@ if( ! class_exists( '\BEA\Autoloader' ) ) {
 /**
  * Check the PHP version defined on the plugin constant
  */
-require_once( BEA_PB_DIR . 'compat.php' );
-add_action( 'admin_init', array( 'BEA\PB\Compatibility', 'admin_init' ) );
+if ( version_compare( PHP_VERSION, BEA_PB_MIN_PHP_VERSION, '<' ) ) {
+	require_once( BEA_PB_DIR . 'compat.php' );
+	// possibly display a notice, trigger error
+	add_action( 'admin_init', array( 'BEA\PB\Compatibility', 'admin_init' ) );
+	// stop execution of this file
+	return;
+}
 
 /**
  * Autoload all the things \o/
