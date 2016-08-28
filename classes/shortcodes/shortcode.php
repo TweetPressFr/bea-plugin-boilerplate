@@ -19,6 +19,8 @@ abstract class Shortcode {
 
 	/**
 	 * The shortcode [tag]
+	 *
+	 * @var string
 	 * @since   2.1.0
 	 */
 	protected $tag = '';
@@ -32,12 +34,24 @@ abstract class Shortcode {
 	protected $defaults = array();
 
 	/**
+	 * Flag to enable shortcake support
+	 *
+	 * @var bool
+	 * @since   2.2.0
+	 */
+	protected $shortcake_support = false;
+
+	/**
 	 * Create a shortcode
 	 *
 	 * @since   2.1.0
 	 */
 	public function add() {
 		add_shortcode( $this->tag, array( $this, 'render' ) );
+
+		if ( $this->shortcake_support ) {
+			$this->add_shortcake_support( );
+		}
 	}
 
 	/**
@@ -65,4 +79,35 @@ abstract class Shortcode {
 	 */
 	public abstract function render( $attributes = array(), $content = '' );
 
+
+	/**
+	 * Allow shortcake support
+	 * Just extend this method and call register_shortcode_ui function
+	 *
+	 * @since   2.2.0
+	 */
+	protected function add_shortcake_support( ) {}
+
+	/**
+	 * Register a UI for the Shortcode.
+	 * Pass an array or args.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param $tag
+	 * @param $args
+	 */
+	public function register_shortcode_ui( $args = array() ) {
+
+		if ( ! function_exists( 'shortcode_ui_register_for_shortcode' ) ) {
+			return false;
+		}
+
+		shortcode_ui_register_for_shortcode(
+			$this->tag,
+			$args
+		);
+
+		return true;
+	}
 }
