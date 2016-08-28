@@ -94,7 +94,6 @@ abstract class Shortcode {
 	 *
 	 * @since   2.2.0
 	 *
-	 * @param $tag
 	 * @param $args
 	 */
 	public function register_shortcode_ui( $args = array() ) {
