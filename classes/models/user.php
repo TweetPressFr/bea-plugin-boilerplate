@@ -261,10 +261,13 @@ class User {
 		if ( empty( $groups ) ) {
 			return array();
 		}
+
 		$fields = array();
-		foreach ( $groups as $group ) {
-			$fields += acf_get_fields( $group );
-		}
+        foreach ( $groups as $group ) {
+            foreach( acf_get_fields( $group ) as $field ) {
+                $fields[] = $field;
+            }
+        }
 
 		$acf_fields = array();
 		foreach ( $fields as $field ) {

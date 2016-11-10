@@ -156,7 +156,7 @@ abstract class Model {
 		if ( ! in_array( $key, $fields ) && ! isset( $fields[ $key ] ) || ! function_exists( 'get_field' ) ) {
 			return $this->wp_object->{$key};
 		}
-		
+
 		// On ACF given key
 		$key = in_array( $key, $fields ) ? $key : $fields[ $key ];
 
@@ -323,10 +323,13 @@ abstract class Model {
 		if ( empty( $groups ) ) {
 			return array();
 		}
+
 		$fields = array();
-		foreach ( $groups as $group ) {
-			$fields += acf_get_fields( $group );
-		}
+        foreach ( $groups as $group ) {
+            foreach( acf_get_fields( $group ) as $field ) {
+                $fields[] = $field;
+            }
+        }
 
 		$acf_fields = array();
 		foreach ( $fields as $field ) {
