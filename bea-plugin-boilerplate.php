@@ -2,7 +2,7 @@
 /*
  Plugin Name: BEA Plugin Name
  Version: 1.0.0
- Version Boilerplate: 2.1.6
+ Version Boilerplate: 2.1.8
  Plugin URI: https://beapi.fr
  Description: Your plugin description
  Author: Be API Technical team
@@ -50,29 +50,18 @@ define( 'BEA_PB_TAXO_NAME', 'custom_taxonomy' );
 define( 'BEA_PB_URL', plugin_dir_url( __FILE__ ) );
 define( 'BEA_PB_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BEA_PB_PLUGIN_DIRNAME', basename( rtrim( dirname( __FILE__ ), '/' ) ) );
+define( 'BEA_PB_PLUGIN_MAIN_FILE_DIR', __FILE__ );
 
-
-// Check PHP min version
-if ( version_compare( PHP_VERSION, BEA_PB_MIN_PHP_VERSION, '<' ) ) {
-	require_once( BEA_PB_DIR . 'compat.php' );
-
-	// possibly display a notice, trigger error
-	add_action( 'admin_init', array( 'BEA\PB\Compatibility', 'admin_init' ) );
-
-	// stop execution of this file
-	return;
-}
-
-/**
- * Autoload all the things \o/
- */
+/** Autoload all the things \o/ */
 require_once BEA_PB_DIR . 'autoload.php';
+
+\BEA\PB\Requirements::get_instance();
 
 // Plugin activate/deactive hooks
 register_activation_hook( __FILE__, array( '\BEA\PB\Plugin', 'activate' ) );
 register_deactivation_hook( __FILE__, array( '\BEA\PB\Plugin', 'deactivate' ) );
 
-add_action( 'plugins_loaded', 'init_bea_pb_plugin' );
+add_action( 'bea_pb_load', 'init_bea_pb_plugin' );
 /**
  * Init the plugin
  */
